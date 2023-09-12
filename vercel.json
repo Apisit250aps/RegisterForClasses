@@ -1,10 +1,27 @@
 {
-    "builds": [{
-        "src": "classesregis/wsgi.py",
-        "use": "@vercel/python"
-    }],
-    "routes": [{
-        "src": "/(.*)",
-        "dest": "classesregis/wsgi.py"
-    }]
+    "version": 2,
+    "builds": [
+        {
+            "src": "classesregis/wsgi.py",
+            "use": "@vercel/python"
+        },
+        {
+            "src": "build_files.sh",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "staticfiles_build"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/static/(.*)",
+            "dest": "/static/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "classesregis/wsgi.py"
+        }
+    ]
+    
 }

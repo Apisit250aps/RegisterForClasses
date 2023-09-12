@@ -18,3 +18,4 @@ class ClassesAdmin(admin.ModelAdmin):
         'class_category',
         'on_register',
     ]
+    
