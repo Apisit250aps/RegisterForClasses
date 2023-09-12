@@ -1,0 +1,104 @@
+{% extends "index.html" %}
+
+{% block content %}
+<section>
+    <div class="card w-100">
+        <div class="card-body p-4">
+            <h5 class="card-title fw-semibold mb-4">Recent Transactions</h5>
+            <div class="table-responsive">
+                <table class="table text-nowrap mb-0 align-middle">
+                    <thead class="text-dark fs-4">
+                        <tr>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">รหัสวิชา</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">รายวิชา</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">หมวดหมู่</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">หน่วยกิต</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">ภาคเรียนที่</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">ปีการศึกษา</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">ผู้สอน</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">สถานะ</h6>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in classes">
+                            <td class="border-bottom-0">
+                                <h6 class="fw-semibold mb-0">[{item.class_id}]</h6>
+                            </td>
+                            <td class="border-bottom-0">
+                                <h6 class="fw-semibold mb-1">[{item.class_name}]</h6>
+                                <!-- <span class="fw-normal">Web Designer</span> -->
+                            </td>
+                            <td class="border-bottom-0">
+                                <p class="mb-0 fw-normal">[{item.class_category}]</p>
+                            </td>
+                            <td class="border-bottom-0">
+                                <p class="mb-0 fw-normal">[{item.class_credit}]</p>
+                            </td>
+                            <td class="border-bottom-0">
+                                <p class="mb-0 fw-normal">[{item.semester}]</p>
+                            </td>
+                            <td class="border-bottom-0">
+                                <p class="mb-0 fw-normal">[{item.class_year}]</p>
+                            </td>
+                            <td class="border-bottom-0">
+                                <p class="mb-0 fw-normal">[{item.teacher}]</p>
+                            </td>
+                            <td class="border-bottom-0">
+                                <div v-if="item.on_register" class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-success rounded-3 fw-semibold">เปิดให้ลงทะเบียน</span>
+                                </div>
+                                <div v-if="!item.on_register" class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-danger rounded-3 fw-semibold">ปิดการลงทะเบียน</span>
+                                </div>
+                            </td>
+                            
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+<!-- scripts -->
+{% block script %}
+<script>
+    const { createApp, ref } = Vue;
+
+    createApp({
+        delimiters: ["[{", "}]"],
+        data() {
+
+            return {
+                classes: null
+            };
+        },
+        mounted(){
+            axios
+                .get("{% url 'api-get-classes' %}")
+                .then((response)=>{
+                    if (response.data['status']){
+                        this.classes = response.data['data']
+                    }
+                })
+        }
+    }).mount("#app");
+</script>
+{% endblock script %}
