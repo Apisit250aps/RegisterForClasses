@@ -60,11 +60,11 @@
                   <span class="hide-menu">ผู้ดูแล</span>
                 </a>
               </li>
-              <li class="nav-small-cap">
+              <li v-show="(page != 'about')" class="nav-small-cap">
                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                 <span class="hide-menu">หมวดหมู่</span>
               </li>
-              <li class="sidebar-item">
+              <li v-show="(page != 'about')" class="sidebar-item">
                 <a class="sidebar-link" href="javascript:void(0)"   @click="category(1)" aria-expanded="false">
                   <span>
                     <i class="ti ti-ruler"></i>
@@ -72,7 +72,7 @@
                   <span class="hide-menu">ศึกษาทั้วไป</span>
                 </a>
               </li>
-              <li class="sidebar-item">
+              <li v-show="(page != 'about')" class="sidebar-item">
                 <a class="sidebar-link" href="javascript:void(0)"  @click="category(2)" aria-expanded="false">
                   <span>
                     <i class="ti ti-pencil"></i>
@@ -80,7 +80,7 @@
                   <span class="hide-menu">เฉพาะ</span>
                 </a>
               </li>
-              <li class="sidebar-item">
+              <li v-show="(page != 'about')" class="sidebar-item">
                 <a class="sidebar-link" href="javascript:void(0)"   @click="category(3)" aria-expanded="false">
                   <span>
                     <i class="ti ti-cards"></i>
@@ -90,11 +90,11 @@
                 </a>
               </li>
               
-              <li class="nav-small-cap">
+              <li v-show="(page != 'about')" class="nav-small-cap">
                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                 <span class="hide-menu">สถานะ</span>
               </li>
-              <li class="sidebar-item">
+              <li v-show="(page != 'about')" class="sidebar-item">
                 <a class="sidebar-link" @click="status(1)" href="javascript:void(0)" aria-expanded="false">
                   <span>
                     <i class="ti ti-link"></i>
@@ -102,7 +102,7 @@
                   <span class="hide-menu">เปิดให้ลงทะเบียน</span>
                 </a>
               </li>
-              <li class="sidebar-item">
+              <li v-show="(page != 'about')" class="sidebar-item">
                 <a class="sidebar-link" @click="status(0)" href="javascript:void(0)" aria-expanded="false">
                   <span>
                     <i class="ti ti-unlink"></i>
