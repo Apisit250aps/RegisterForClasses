@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+
+{% block content %}
+sd
+{% endblock content %}
+
+{% block script %}
+<script>
+    const { createApp, ref } = Vue;
+
+    createApp({
+        delimiters: ["[{", "}]"],
+        data() {
+
+            return {
+                page:"about",
+                classes: null
+            };
+        },
+        mounted(){
+            axios
+                .get("{% url 'api-get-classes' %}")
+                .then((response)=>{
+                    if (response.data['status']){
+                        this.classes = response.data['data']
+                    }
+                })
+        }
+    }).mount("#app");
+</script>
+
+{% endblock script %}

@@ -3,8 +3,9 @@
 {% block content %}
 <section>
     <div class="card w-100">
+        
         <div class="card-body p-4">
-            <h5 class="card-title fw-semibold mb-4">Recent Transactions</h5>
+            <h5 class="card-title fw-semibold mb-4">[{table_title}]</h5>
             <div class="table-responsive">
                 <table class="table text-nowrap mb-0 align-middle">
                     <thead class="text-dark fs-4">
@@ -87,7 +88,9 @@
         data() {
 
             return {
-                classes: null
+                page:"home",
+                classes: null,
+                table_title:""
             };
         },
         mounted(){
@@ -96,8 +99,37 @@
                 .then((response)=>{
                     if (response.data['status']){
                         this.classes = response.data['data']
+                        this.table_title = "รายวิชาทั้งหมด"
                     }
                 })
+        },
+        methods:{
+            category(id){
+                const form_data = new FormData;
+                form_data.append('id', id)
+                form_data.append("csrfmiddlewaretoken", "{{csrf_token}}");
+                axios
+                .post("{% url 'api-get-cats' %}", form_data)
+                .then((response)=>{
+                    if (response.data['status']){
+                        this.classes = response.data['data']
+                        this.table_title = response.data['category']
+                    }
+                })
+            },
+            status(id){
+                const form_data = new FormData;
+                form_data.append('status', id)
+                form_data.append("csrfmiddlewaretoken", "{{csrf_token}}");
+                axios
+                .post("{% url 'api-get-status' %}", form_data)
+                .then((response)=>{
+                    if (response.data['status']){
+                        this.classes = response.data['data']
+                    }
+                })
+            },
+            
         }
     }).mount("#app");
 </script>
