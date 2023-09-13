@@ -1,96 +1,87 @@
 {% extends "index.html" %}
 {% block content %}
-<section>
-  <div class="card w-100">
-    <div class="card-body p-4">
+
+<div class="card w-100">
+  <div class="card-body p-4">
     <a href="{% url 'index' %}" class="text-black">
 
-        <h5 class="card-title fw-semibold mb-4">[{table_title}]</h5>
+      <h5 class="card-title fw-semibold mb-4">[{table_title}]</h5>
     </a>
-      <div class="table-responsive">
-        <table class="table text-nowrap mb-0 align-middle">
-          <thead class="text-dark fs-4">
-            <tr>
-              <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">รหัสวิชา</h6>
-              </th>
-              <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">รายวิชา</h6>
-              </th>
-              <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">หมวดหมู่</h6>
-              </th>
-              <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">หน่วยกิต</h6>
-              </th>
-              <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">ภาคเรียนที่</h6>
-              </th>
-              <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">ปีการศึกษา</h6>
-              </th>
-              <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">ผู้สอน</h6>
-              </th>
-              <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">สถานะ</h6>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in classes">
-              <td class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">[{item.class_id}]</h6>
-              </td>
-              <td class="border-bottom-0">
-                <h6 class="fw-semibold mb-1">[{item.class_name}]</h6>
-                <!-- <span class="fw-normal">Web Designer</span> -->
-              </td>
-              <td class="border-bottom-0">
-                <a
-                  href="jsvascrip:void(0)"
-                  @click="category(item.category_id)"
-                  class="mb-0 fw-normal text-primary"
-                  >[{item.class_category}]</a
-                >
-              </td>
-              <td class="border-bottom-0">
-                <p class="mb-0 fw-normal">[{item.class_credit}]</p>
-              </td>
-              <td class="border-bottom-0">
-                <p class="mb-0 fw-normal">[{item.semester}]</p>
-              </td>
-              <td class="border-bottom-0">
-                <a href="jsvascrip:void(0)" @click="year(item.class_year)" class="mb-0 fw-normal">[{item.class_year}]</a>
-              </td>
-              <td class="border-bottom-0">
-                <p class="mb-0 fw-normal">[{item.teacher}]</p>
-              </td>
-              <td class="border-bottom-0">
-                <div
-                  v-if="item.on_register"
-                  class="d-flex align-items-center gap-2"
-                >
-                  <span class="badge bg-success rounded-3 fw-semibold"
-                    >เปิดให้ลงทะเบียน</span
-                  >
-                </div>
-                <div
-                  v-if="!item.on_register"
-                  class="d-flex align-items-center gap-2"
-                >
-                  <span class="badge bg-danger rounded-3 fw-semibold"
-                    >ปิดการลงทะเบียน</span
-                  >
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="table-responsive">
+      <div v-if="on_load" class="d-flex flex-row w-100 align-items-center justify-content-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </div>
+      <table v-if="!on_load" class="table text-nowrap mb-0 align-middle">
+        <thead class="text-dark fs-4">
+          <tr>
+            <th class="border-bottom-0">
+              <h6 class="fw-semibold mb-0">รหัสวิชา</h6>
+            </th>
+            <th class="border-bottom-0">
+              <h6 class="fw-semibold mb-0">รายวิชา</h6>
+            </th>
+            <th class="border-bottom-0">
+              <h6 class="fw-semibold mb-0">หมวดหมู่</h6>
+            </th>
+            <th class="border-bottom-0">
+              <h6 class="fw-semibold mb-0">หน่วยกิต</h6>
+            </th>
+            <th class="border-bottom-0">
+              <h6 class="fw-semibold mb-0">ภาคเรียนที่</h6>
+            </th>
+            <th class="border-bottom-0">
+              <h6 class="fw-semibold mb-0">ปีการศึกษา</h6>
+            </th>
+            <th class="border-bottom-0">
+              <h6 class="fw-semibold mb-0">ผู้สอน</h6>
+            </th>
+            <th class="border-bottom-0">
+              <h6 class="fw-semibold mb-0">สถานะ</h6>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in classes">
+            <td class="border-bottom-0">
+              <h6 class="fw-semibold mb-0">[{item.class_id}]</h6>
+            </td>
+            <td class="border-bottom-0">
+              <h6 class="fw-semibold mb-1">[{item.class_name}]</h6>
+              <!-- <span class="fw-normal">Web Designer</span> -->
+            </td>
+            <td class="border-bottom-0">
+              <a href="jsvascrip:void(0)" @click="category(item.category_id)"
+                class="mb-0 fw-normal text-primary">[{item.class_category}]</a>
+            </td>
+            <td class="border-bottom-0">
+              <p class="mb-0 fw-normal">[{item.class_credit}]</p>
+            </td>
+            <td class="border-bottom-0">
+              <p class="mb-0 fw-normal">[{item.semester}]</p>
+            </td>
+            <td class="border-bottom-0">
+              <a href="jsvascrip:void(0)" @click="year(item.class_year)" class="mb-0 fw-normal">[{item.class_year}]</a>
+            </td>
+            <td class="border-bottom-0">
+              <p class="mb-0 fw-normal">[{item.teacher}]</p>
+            </td>
+            <td class="border-bottom-0">
+              <div v-if="item.on_register" class="d-flex align-items-center gap-2">
+                <span class="badge bg-success rounded-3 fw-semibold">เปิดให้ลงทะเบียน</span>
+              </div>
+              <div v-if="!item.on_register" class="d-flex align-items-center gap-2">
+                <span class="badge bg-danger rounded-3 fw-semibold">ปิดการลงทะเบียน</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-</section>
+</div>
+
 {% endblock content %}
 <!-- scripts -->
 {% block script %}
@@ -103,50 +94,69 @@
       return {
         page: "home",
         classes: null,
-        table_title: "",
+        table_title: "รายวิชาทั้งหมด",
+        on_load: true,
       };
     },
     mounted() {
+      this.on_load = true;
       axios.get("{% url 'api-get-classes' %}").then((response) => {
         if (response.data["status"]) {
           this.classes = response.data["data"];
           this.table_title = "รายวิชาทั้งหมด";
         }
       });
+      this.on_load = false;
     },
     methods: {
       category(id) {
+        this.on_load = true;
+        
         const form_data = new FormData();
         form_data.append("id", id);
         form_data.append("csrfmiddlewaretoken", "{{csrf_token}}");
         axios.post("{% url 'api-get-cats' %}", form_data).then((response) => {
+
           if (response.data["status"]) {
             this.classes = response.data["data"];
             this.table_title = response.data["category"];
           }
         });
+        this.on_load = false;
       },
       status(id) {
+        this.on_load = true;
+
         const form_data = new FormData();
         form_data.append("status", id);
         form_data.append("csrfmiddlewaretoken", "{{csrf_token}}");
+
+
         axios.post("{% url 'api-get-status' %}", form_data).then((response) => {
           if (response.data["status"]) {
             this.classes = response.data["data"];
-            this.table_title = 'รายวิชาทั้งหมด'
+            this.table_title = 'รายวิชาทั้งหมด';
           }
         });
+
+        this.on_load = false;
       },
       year(id) {
+        this.on_load = true;
+
         const form_data = new FormData();
         form_data.append("year", id);
         form_data.append("csrfmiddlewaretoken", "{{csrf_token}}");
+
+
         axios.post("{% url 'api-get-year' %}", form_data).then((response) => {
           if (response.data["status"]) {
             this.classes = response.data["data"];
             this.table_title = `ปีการศึกษา ${response.data["year"]}`;
           }
         });
+
+        this.on_load = false;
       },
     },
   }).mount("#app");
