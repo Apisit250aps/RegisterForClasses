@@ -20,6 +20,7 @@ def setData(data):
     for cls in data:
         cls = dict(cls)
         # print((cls['class_category']))
+        cls['category_id'] = cls['class_category']
         cls["class_category"] = models.Category.objects.get(id=int(cls['class_category'])).category
         class_info.append(cls)
     
@@ -30,7 +31,7 @@ def setData(data):
 @permission_classes((AllowAny,))
 def getAllClasses(request):
     status = True
-    classes = models.Classes.objects.order_by('-on_register', '-class_year', 'semester')
+    classes = models.Classes.objects.order_by('-on_register', '-class_year', '-semester')
     
     classes_data = serializers.ClassesSerializer(classes, many=True).data
     data = setData(classes_data)
@@ -49,7 +50,7 @@ def getCategory(request):
     status = True
     id = request.data['id']
     category = models.Category.objects.get(id=id)
-    classes = models.Classes.objects.filter(class_category=category).order_by('-on_register', '-class_year', 'semester')
+    classes = models.Classes.objects.filter(class_category=category).order_by('-on_register', '-class_year', '-semester')
     
     classes_data = serializers.ClassesSerializer(classes, many=True).data
     data = setData(classes_data)
@@ -69,7 +70,7 @@ def getStatus(request):
     status = True
     on_regis = int(request.data['status'])
     
-    classes = models.Classes.objects.filter(on_register=on_regis).order_by('-on_register', '-class_year', 'semester')
+    classes = models.Classes.objects.filter(on_register=on_regis).order_by('-on_register', '-class_year', '-semester')
     
     classes_data = serializers.ClassesSerializer(classes, many=True).data
     data = setData(classes_data)
@@ -78,5 +79,25 @@ def getStatus(request):
         {
             "status":status,
             "data":data
+        }
+    )
+
+@csrf_exempt
+@api_view(["POST", ])
+@permission_classes((AllowAny,))
+def getYear(request):
+    status = True
+    year = int(request.data['year'])
+    
+    classes = models.Classes.objects.filter(class_year=year).order_by('-on_register', '-class_year', '-semester')
+    
+    classes_data = serializers.ClassesSerializer(classes, many=True).data
+    data = setData(classes_data)
+    
+    return Response(
+        {
+            "status":status,
+            "data":data,
+            "year":year
         }
     )
