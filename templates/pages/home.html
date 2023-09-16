@@ -88,7 +88,7 @@
 <script>
   const { createApp, ref } = Vue;
 
-  createApp({
+  const App = createApp({
     delimiters: ["[{", "}]"],
     data() {
       return {
@@ -159,6 +159,7 @@
         this.on_load = false;
       },
     },
-  }).mount("#app");
+  });
+  App.mount("#app");
 </script>
 {% endblock script %}
